@@ -103,9 +103,9 @@ stages:
               instructions: 'Aprobación requerida para ejecutar la fase de despliegue continuo en OpenShift Sandbox.'
               onTimeout: 'reject'
 
-  - stage: CIO Approval 
-    displayName: 'Aprobar'
-    dependsOn: CI
+  - stage: CIO_Approval 
+    displayName: 'Aprobar CIO'
+    dependsOn: Approval
     condition: succeeded()
     jobs:
       - job: manual_gate
@@ -123,7 +123,7 @@ stages:
   # ==========================================
   - stage: CD
     displayName: 'CD'
-    dependsOn: Approval
+    dependsOn: [Approval, CIO_Approval]
     condition: succeeded()
     jobs:
       - job: deploy_openshift
